@@ -46,26 +46,33 @@ type Instance struct {
 var version string
 
 func main() {
-        version_bytes, err := ioutil.ReadFile("VERSION")
-        if err != nil {
-          panic(err)
-        }
-        version = string(version_bytes)
+	versionBytes, err := ioutil.ReadFile("VERSION")
+	var counter uint32 = 0
+	if err != nil {
+		panic(err)
+	}
+	version = string(versionBytes)
 	frontend := flag.Bool("frontend", false, "run in frontend mode")
 	port := flag.Int("port", 8080, "port to bind")
 	backend := flag.String("backend-service", "http://127.0.0.1:8081", "hostname of backend server")
 	flag.Parse()
 
-        fmt.Printf("Version %s\n", version)
+	fmt.Printf("Version %s\n", version)
 
 	http.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s\n", version)
+	})
+
+	http.HandleFunc("/counter", func(w http.ResponseWriter, r *http.Request) {
+		counter++
+		fmt.Fprintf(w, "%d\n", counter)
 	})
 
 	if *frontend {
 		frontendMode(*port, *backend)
 	} else {
 		backendMode(*port)
+
 	}
 
 }

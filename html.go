@@ -35,6 +35,10 @@ const (
 
 
 <div class="card purple">
+<div class="card-image">
+	<img src="https://www.gravatar.com/avatar/e9ee817c55cdcfec1fe1733c6b9e7ba2?s=200">
+	<span class="card-title">mike-west Project</span>
+</div>
 <div class="card-content white-text">
 <div class="card-title">Backend that serviced this request</div>
 </div>
