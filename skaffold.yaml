@@ -2,7 +2,7 @@ apiVersion: skaffold/v1alpha3
 kind: Config
 build:
   artifacts:
-  - imageName: gcr.io/cloud-solutions-images/gceme
+  - imageName: gcr.io/vic-bin-authz-0/gceme
   googleCloudBuild:
     projectId: vic-bin-authz-0
 deploy:

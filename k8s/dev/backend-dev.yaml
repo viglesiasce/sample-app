@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/cloud-solutions-images/gceme
+        image: gcr.io/vic-bin-authz-0/gceme
         resources:
           limits:
             memory: "500Mi"
