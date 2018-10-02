@@ -1,0 +1,11 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  artifacts:
+  - imageName: gcr.io/cloud-solutions-images/gceme
+deploy:
+  kubectl:
+    manifests:
+    - k8s/dev/backend-dev.yaml
+    - k8s/dev/default.yml
+    - k8s/dev/frontend-dev.yaml
