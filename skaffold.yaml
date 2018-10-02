@@ -8,6 +8,5 @@ build:
 deploy:
   kubectl:
     manifests:
-    - k8s/dev/backend-dev.yaml
-    - k8s/dev/default.yml
-    - k8s/dev/frontend-dev.yaml
+    - k8s/dev/*
+    - k8s/services/*
