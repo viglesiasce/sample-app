@@ -4,5 +4,3 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-west2-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=staging'
-images:
-- 'gcr.io/$PROJECT_ID/sample-app:latest'
