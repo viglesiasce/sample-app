@@ -1,10 +1,12 @@
 steps:
 - name: golang:1.11
   entrypoint: bash
+  dir: /go/src/gceme
   args:
   - -c
   - |
-    cd /workspace
+    ln -s /workspace /go/src/gceme
+    cd /go/src/gceme
     go get -u -v
     go test
 - name: gcr.io/$PROJECT_ID/skaffold:alpha
