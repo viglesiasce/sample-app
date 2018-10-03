@@ -3,8 +3,8 @@ kind: Config
 build:
   artifacts:
   - imageName: gcr.io/vic-bin-authz-0/gceme
-  googleCloudBuild:
-    projectId: vic-bin-authz-0
+#  googleCloudBuild:
+#    projectId: vic-bin-authz-0
 deploy:
   kubectl:
     manifests:
