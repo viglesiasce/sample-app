@@ -46,17 +46,17 @@ type Instance struct {
 var version string
 
 func main() {
-        version_bytes, err := ioutil.ReadFile("VERSION")
-        if err != nil {
-          panic(err)
-        }
-        version = string(version_bytes)
+	version_bytes, err := ioutil.ReadFile("VERSION")
+	if err != nil {
+		panic(err)
+	}
+	version = string(version_bytes)
 	frontend := flag.Bool("frontend", false, "run in frontend mode")
 	port := flag.Int("port", 8080, "port to bind")
 	backend := flag.String("backend-service", "http://127.0.0.1:8081", "hostname of backend server")
 	flag.Parse()
 
-        fmt.Printf("Version %s\n", version)
+	fmt.Printf("Version %s\n", version)
 
 	http.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s\n", version)
@@ -92,11 +92,14 @@ func frontendMode(port int, backendURL string) {
 
 	transport := http.Transport{DisableKeepAlives: false}
 	client := &http.Client{Transport: &transport}
-	req, _ := http.NewRequest(
+	req, err := http.NewRequest(
 		"GET",
 		backendURL,
 		nil,
 	)
+	if err != nil {
+		log.Fatalf("Unable to create request: %v", err)
+	}
 	req.Close = false
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
