@@ -17,4 +17,4 @@ FROM golang:1.11
 WORKDIR /go/src/app
 COPY . .
 RUN go build
-CMD [ "/go/src/app/app" ]
+ENTRYPOINT [ "/go/src/app/app" ]
