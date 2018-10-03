@@ -1,10 +1,10 @@
 apiVersion: skaffold/v1alpha3
 kind: Config
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
   - imageName: gcr.io/vic-bin-authz-0/gceme
-#  googleCloudBuild:
-#    projectId: vic-bin-authz-0
 deploy:
   kubectl:
     manifests:
