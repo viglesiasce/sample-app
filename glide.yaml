@@ -1,0 +1,5 @@
+package: .
+import:
+- package: cloud.google.com/go
+  subpackages:
+  - compute/metadata

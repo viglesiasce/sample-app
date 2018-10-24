@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/cloud-solutions-images/gceme:1.0.0
+        image: gcr.io/vic-bin-authz-0/gceme
         resources:
           limits:
             memory: "500Mi"
@@ -38,7 +38,7 @@ spec:
           httpGet:
             path: /healthz
             port: 8080
-        command: ["sh", "-c", "app -port=8080"]
+        args: ["-port=8080"]
         ports:
         - name: backend
           containerPort: 8080

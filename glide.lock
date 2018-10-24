@@ -1,0 +1,13 @@
+hash: e6c0616ac6678e4cd851ceb6b0fca30b04dc7472729acb01544cfb6b0801797e
+updated: 2018-10-02T16:36:21.703654155-07:00
+imports:
+- name: cloud.google.com/go
+  version: 31ef90783ca56d389e4a7168f104088269c145fc
+  subpackages:
+  - compute/metadata
+- name: golang.org/x/net
+  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  subpackages:
+  - context
+  - context/ctxhttp
+testImports: []
