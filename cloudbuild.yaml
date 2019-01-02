@@ -1,10 +1,12 @@
 steps:
 - name: gcr.io/kaniko-project/executor:latest
+  id: build-frontend
   dir: cmd/frontend
   args:
   - "--destination=gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA"
   - "--cache"
 - name: gcr.io/kaniko-project/executor:latest
+  id: build-backend
   dir: cmd/backend
   args:
   - "--destination=gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA"
