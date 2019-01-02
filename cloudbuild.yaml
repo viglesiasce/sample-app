@@ -20,7 +20,7 @@ steps:
   args:
   - -c
   - |
-     cd ~/go/src/frontend
+     cd /root/go/src/frontend
      go test
 - name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
   id: 'test-backend'
@@ -29,7 +29,7 @@ steps:
   args:
   - -c
   - |
-     cd ~/go/src/backend
+     cd /root/go/src/backend
      go test
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-production-yaml'
