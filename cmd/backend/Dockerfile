@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1
 WORKDIR /go/src/backend
 COPY vendor/ ./vendor/
 COPY *.go ./

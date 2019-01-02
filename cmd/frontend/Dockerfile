@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1
 WORKDIR /go/src/frontend
 COPY *.go ./
 RUN go build
