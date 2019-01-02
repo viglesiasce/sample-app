@@ -1,12 +1,14 @@
 steps:
 - name: gcr.io/kaniko-project/executor:latest
   id: build-frontend
+  waitFor: ['-']
   args:
   - "--context=dir:///workspace/cmd/frontend"
   - "--destination=gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA"
   - "--cache"
 - name: gcr.io/kaniko-project/executor:latest
   id: build-backend
+  waitFor: ['-']
   args:
   - "--context=dir:///workspace/cmd/backend"
   - "--destination=gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA"
