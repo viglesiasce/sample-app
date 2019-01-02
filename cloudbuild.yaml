@@ -1,23 +1,25 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'build-frontend'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA', 'cmd/frontend']
-  waitFor: ['-']
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'build-backend'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA', 'cmd/backend']
-  waitFor: ['-']
+- name: gcr.io/kaniko-project/executor:latest
+  dir: cmd/frontend
+  args:
+  - "--destination=gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA"
+  - "--cache"
+- name: gcr.io/kaniko-project/executor:latest
+  dir: cmd/backend
+  args:
+  - "--destination=gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA"
+  - "--cache"
 - name: 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA'
   id: 'test-frontend'
   waitFor: ['build-frontend']
-  entrypoint: 'go'
   dir: 'cmd/frontend'
+  entrypoint: 'go'
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
   id: 'test-backend'
   waitFor: ['build-backend']
-  entrypoint: 'go'
   dir: 'cmd/backend'
+  entrypoint: 'go'
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-production-yaml'
@@ -49,6 +51,3 @@ steps:
   - cp
   - staging.yaml
   - gs://vic-cd-demo-k8s-yaml/staging.yaml
-images:
-- 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA'
-- 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
