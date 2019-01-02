@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install -y wget && \
 WORKDIR /root/go/src/frontend
 COPY *.go ./
 RUN go build
-CMD ["/go/src/frontend/frontend"]
+CMD ["/root/go/src/frontend/frontend"]

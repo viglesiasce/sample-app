@@ -11,11 +11,13 @@ steps:
   id: 'test-frontend'
   waitFor: ['build-frontend']
   entrypoint: 'go'
+  dir: /root/go/src/frontend
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
   id: 'test-backend'
   waitFor: ['build-backend']
   entrypoint: 'go'
+  dir: /root/go/src/backend
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-production-yaml'

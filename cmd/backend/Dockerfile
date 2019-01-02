@@ -7,4 +7,4 @@ WORKDIR /root/go/src/backend
 COPY vendor/ ./vendor/
 COPY *.go ./
 RUN go build
-CMD ["/go/src/backend/backend"]
+CMD ["/root/go/src/backend/backend"]
