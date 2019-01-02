@@ -16,13 +16,11 @@ steps:
 - name: 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA'
   id: 'test-frontend'
   waitFor: ['build-frontend']
-  dir: 'cmd/frontend'
   entrypoint: 'go'
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
   id: 'test-backend'
   waitFor: ['build-backend']
-  dir: 'cmd/backend'
   entrypoint: 'go'
   args: ['test']
 - name: 'gcr.io/$PROJECT_ID/kustomize'
