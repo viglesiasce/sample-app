@@ -16,13 +16,21 @@ steps:
 - name: 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA'
   id: 'test-frontend'
   waitFor: ['build-frontend']
-  entrypoint: 'go'
-  args: ['test']
+  entrypoint: 'sh'
+  args:
+  - -c
+  - |
+     cd /root/src/frontend
+     go test
 - name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
   id: 'test-backend'
   waitFor: ['build-backend']
-  entrypoint: 'go'
-  args: ['test']
+  entrypoint: 'sh'
+  args:
+  - -c
+  - |
+     cd /root/src/backend
+     go test
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-production-yaml'
   waitFor: ['test-frontend', 'test-backend']
