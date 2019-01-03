@@ -21,6 +21,7 @@ steps:
   - -xe
   - -c
   - |
+     GOPATH=/root/go
      mkdir -p /root/go/src
      ln -s /workspace/cmd/frontend /root/go/src/frontend
      cd /root/go/src/frontend
@@ -33,6 +34,7 @@ steps:
   - -xe
   - -c
   - |
+     GOPATH=/root/go
      mkdir -p /root/go/src
      ln -s /workspace/cmd/backend /root/go/src/backend
      cd /root/go/src/backend
