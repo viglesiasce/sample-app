@@ -41,7 +41,7 @@ steps:
      go test
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-production-yaml'
-  waitFor: ['test-frontend', 'test-backend']
+  waitFor: ['-']
   entrypoint: 'sh'
   args:
   - -c
@@ -56,7 +56,7 @@ steps:
   - gs://vic-cd-demo-k8s-yaml/production.yaml
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-staging-yaml'
-  waitFor: ['test-frontend', 'test-backend']
+  waitFor: ['-']
   entrypoint: 'sh'
   args:
   - -c
