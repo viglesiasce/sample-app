@@ -34,8 +34,9 @@ steps:
   waitFor: ['create-yaml']
   entrypoint: 'sh'
   args:
+  - -xe
   - -c
   - |
-  - gsutil cp /workspace/yaml/** gs://vic-cd-demo-k8s-yaml/
+  - gsutil cp /workspace/yaml/* gs://vic-cd-demo-k8s-yaml/
 options:
  machineType: 'N1_HIGHCPU_32'
