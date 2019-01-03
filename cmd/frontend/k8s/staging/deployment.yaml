@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: gceme-frontend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       env: staging
