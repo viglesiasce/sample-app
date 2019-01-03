@@ -24,6 +24,7 @@ steps:
   waitFor: ['-']
   entrypoint: 'sh'
   args:
+  - -xe
   - -c
   - |
      mkdir -p /workspace/yaml
