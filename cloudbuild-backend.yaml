@@ -1,0 +1,41 @@
+steps:
+- name: gcr.io/kaniko-project/executor:latest
+  id: build
+  waitFor: ['-']
+  args:
+  - "--context=dir:///workspace/cmd/frontend"
+  - "--destination=gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA"
+  - "--cache"
+- name: 'gcr.io/cloud-builders/go:debian'
+  id: 'test'
+  waitFor: ['-']
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+     GOPATH=/root/go
+     mkdir -p /root/go/src
+     ln -s /workspace/cmd/frontend /root/go/src/frontend
+     cd /root/go/src/frontend
+     go test
+- name: 'gcr.io/$PROJECT_ID/kustomize'
+  id: 'create-yaml'
+  waitFor: ['-']
+  entrypoint: 'sh'
+  args:
+  - -c
+  - |
+     mkdir -p /workspace/yaml
+     /kustomize build cmd/frontend/k8s/production > /workspace/yaml/frontend-production.yaml
+     /kustomize build cmd/frontend/k8s/staging > /workspace/yaml/frontend-staging.yaml
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: 'upload-yaml'
+  waitFor: ['create-yaml']
+  entrypoint: 'sh'
+  args:
+  - -c
+  - |
+  - gsutil cp /workspace/yaml/** gs://vic-cd-demo-k8s-yaml/
+options:
+ machineType: 'N1_HIGHCPU_32'
