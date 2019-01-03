@@ -18,7 +18,7 @@ steps:
   waitFor: ['-']
   entrypoint: 'sh'
   args:
-  - xe
+  - -xe
   - -c
   - |
      mkdir -p /root/go/src
@@ -30,7 +30,7 @@ steps:
   waitFor: ['-']
   entrypoint: 'sh'
   args:
-  - xe
+  - -xe
   - -c
   - |
      mkdir -p /root/go/src
