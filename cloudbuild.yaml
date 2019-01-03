@@ -13,7 +13,7 @@ steps:
   - "--context=dir:///workspace/cmd/backend"
   - "--destination=gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA"
   - "--cache"
-- name: 'gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA'
+- name: 'gcr.io/cloud-builders/go:debian'
   id: 'test-frontend'
   waitFor: ['-']
   entrypoint: 'sh'
@@ -23,7 +23,7 @@ steps:
      ln -s /workspace/cmd/frontend /root/go/src/frontend
      cd /root/go/src/frontend
      go test
-- name: 'gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA'
+- name: 'gcr.io/cloud-builders/go:debian'
   id: 'test-backend'
   waitFor: ['-']
   entrypoint: 'sh'
