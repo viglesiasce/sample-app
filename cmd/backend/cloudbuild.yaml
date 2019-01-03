@@ -33,11 +33,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   id: 'upload-yaml'
   waitFor: ['create-yaml']
-  entrypoint: 'sh'
   args:
-  - -xe
-  - -c
-  - |
-  - gsutil cp /workspace/yaml/* gs://vic-cd-demo-k8s-yaml/
+  - cp /workspace/yaml/* gs://vic-cd-demo-k8s-yaml/
 options:
  machineType: 'N1_HIGHCPU_32'
