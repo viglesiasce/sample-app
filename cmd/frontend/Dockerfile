@@ -4,4 +4,4 @@ RUN apk add go musl-dev
 WORKDIR /root/go/src/frontend
 COPY *.go ./
 RUN go build
-CMD ["/root/go/src/frontend/frontend"]
+ENTRYPOINT ["/root/go/src/frontend/frontend"]
