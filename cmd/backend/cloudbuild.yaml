@@ -34,6 +34,8 @@ steps:
   id: 'upload-yaml'
   waitFor: ['create-yaml']
   args:
-  - cp /workspace/yaml/* gs://vic-cd-demo-k8s-yaml/
+  - cp
+  - /workspace/yaml/*
+  - gs://vic-cd-demo-k8s-yaml/
 options:
  machineType: 'N1_HIGHCPU_32'
