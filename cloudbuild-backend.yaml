@@ -3,8 +3,8 @@ steps:
   id: build
   waitFor: ['-']
   args:
-  - "--context=dir:///workspace/cmd/frontend"
-  - "--destination=gcr.io/$PROJECT_ID/sample-app-frontend:$COMMIT_SHA"
+  - "--context=dir:///workspace/cmd/backend"
+  - "--destination=gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA"
   - "--cache"
 - name: 'gcr.io/cloud-builders/go:debian'
   id: 'test'
@@ -16,8 +16,8 @@ steps:
   - |
      GOPATH=/root/go
      mkdir -p /root/go/src
-     ln -s /workspace/cmd/frontend /root/go/src/frontend
-     cd /root/go/src/frontend
+     ln -s /workspace/cmd/backend /root/go/src/backend
+     cd /root/go/src/backend
      go test
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-yaml'
@@ -27,8 +27,8 @@ steps:
   - -c
   - |
      mkdir -p /workspace/yaml
-     /kustomize build cmd/frontend/k8s/production > /workspace/yaml/frontend-production.yaml
-     /kustomize build cmd/frontend/k8s/staging > /workspace/yaml/frontend-staging.yaml
+     /kustomize build cmd/backend/k8s/production > /workspace/yaml/backend-production.yaml
+     /kustomize build cmd/backend/k8s/staging > /workspace/yaml/backend-staging.yaml
 - name: 'gcr.io/cloud-builders/gsutil'
   id: 'upload-yaml'
   waitFor: ['create-yaml']
