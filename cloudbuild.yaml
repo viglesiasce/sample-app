@@ -20,6 +20,7 @@ steps:
   args:
   - -c
   - |
+     mkdir -p /root/go/src
      ln -s /workspace/cmd/frontend /root/go/src/frontend
      cd /root/go/src/frontend
      go test
@@ -30,6 +31,7 @@ steps:
   args:
   - -c
   - |
+     mkdir -p /root/go/src
      ln -s /workspace/cmd/backend /root/go/src/backend
      cd /root/go/src/backend
      go test
