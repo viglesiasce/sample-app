@@ -32,7 +32,7 @@ spec:
           periodSeconds: 1
           httpGet:
             path: /healthz
-            port: 8080
+            port: 8081
         ports:
         - name: backend
-          containerPort: 8080
+          containerPort: 8081

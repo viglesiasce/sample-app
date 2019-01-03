@@ -13,8 +13,8 @@ import (
 
 func main() {
 	version := os.Getenv("VERSION")
-	port := 80
-	backend := flag.String("backend-service", "http://127.0.0.1:8080", "hostname of backend server")
+	port := 8080
+	backend := flag.String("backend-service", "http://127.0.0.1:8081", "hostname of backend server")
 	flag.Parse()
 	http.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s\n", version)

@@ -12,7 +12,7 @@ import (
 
 func main() {
 	version := os.Getenv("VERSION")
-	port := 8080
+	port := 8081
 	flag.Parse()
 	http.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s\n", version)
