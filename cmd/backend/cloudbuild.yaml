@@ -19,6 +19,16 @@ steps:
      ln -s /workspace/cmd/backend /root/go/src/backend
      cd /root/go/src/backend
      go test
+- name: 'gcr.io/vic-cd-demo/binauthz-tools'
+  id: 'unit-test-attestation'
+  waitFor: ['build', 'test']
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+     FULLY_QUALIFIED_IMAGE=$(gcloud container images describe --format 'value(image_summary.fully_qualified_digest)' gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA)
+     /scripts/create_attestation.sh -n unit-test -p $PROJECT_ID -i $FULLY_QUALIFIED_IMAGE
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-yaml'
   waitFor: ['-']
