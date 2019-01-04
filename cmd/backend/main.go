@@ -34,6 +34,7 @@ func main() {
 		log.Printf("Received health check from %s", r.RemoteAddr)
 		w.WriteHeader(http.StatusOK)
 	})
+	log.Printf("Starting server on port: %v", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
 
 }
