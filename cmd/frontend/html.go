@@ -2,17 +2,17 @@ package main
 
 // InstanceMetadata stores info about the instance this code is running on.
 type InstanceMetadata struct {
-	ID         string
-	Name       string
-	Version    string
-	Hostname   string
-	Zone       string
-	Project    string
-	InternalIP string
-	ExternalIP string
-	LBRequest  string
-	ClientIP   string
-	Error      string
+	ID          string
+	Name        string
+	Environment string
+	Hostname    string
+	Zone        string
+	Project     string
+	InternalIP  string
+	ExternalIP  string
+	LBRequest   string
+	ClientIP    string
+	Error       string
 }
 
 const (
@@ -45,8 +45,8 @@ const (
 	  <td>{{.Name}}</td>
 	</tr>
 	<tr>
-	  <td>Version</td>
-	  <td>{{.Version}}</td>
+	  <td>Environment</td>
+	  <td>{{.Environment}}</td>
 	</tr>
 	<tr>
 	  <td>Instance ID</td>

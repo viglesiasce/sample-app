@@ -24,7 +24,7 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         env:
-        - name: VERSION
+        - name: ENVIRONMENT
           value: base
         imagePullPolicy: Always
         readinessProbe:

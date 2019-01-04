@@ -15,5 +15,5 @@ spec:
       containers:
       - name: frontend
         env:
-        - name: VERSION
+        - name: ENVIRONMENT
           value: staging

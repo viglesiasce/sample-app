@@ -22,7 +22,7 @@ spec:
         args:
         - -backend-service=http://gceme-backend:8081
         env:
-        - name: VERSION
+        - name: ENVIRONMENT
           value: base
         resources:
           limits:

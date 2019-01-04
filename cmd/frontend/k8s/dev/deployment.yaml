@@ -15,5 +15,5 @@ spec:
       - name: frontend
         image: gcr.io/vic-cd-demo/sample-app-frontend-dev
         env:
-        - name: VERSION
+        - name: ENVIRONMENT
           value: dev
