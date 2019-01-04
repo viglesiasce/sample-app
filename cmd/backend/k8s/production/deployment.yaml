@@ -20,5 +20,5 @@ spec:
             memory: "1024Mi"
             cpu: "1000m"
         env:
-        - name: VERSION
+        - name: ENVIRONMENT
           value: production
