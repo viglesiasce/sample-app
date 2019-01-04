@@ -28,7 +28,7 @@ steps:
   - -c
   - |
      FULLY_QUALIFIED_IMAGE=$(gcloud container images describe --format 'value(image_summary.fully_qualified_digest)' gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA)
-     /scripts/create_attestation.sh -n unit-test -p $PROJECT_ID -i $FULLY_QUALIFIED_IMAGE
+     /scripts/create_attestation.sh -n unit-test -p $PROJECT_ID -i $$FULLY_QUALIFIED_IMAGE
 - name: 'gcr.io/$PROJECT_ID/kustomize'
   id: 'create-yaml'
   waitFor: ['-']
