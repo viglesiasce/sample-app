@@ -1,0 +1,5 @@
+# cloud.google.com/go v0.24.0
+cloud.google.com/go/compute/metadata
+# golang.org/x/net v0.0.0-20180702195525-87b3feba568e
+golang.org/x/net/context
+golang.org/x/net/context/ctxhttp

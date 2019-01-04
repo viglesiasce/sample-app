@@ -6,21 +6,21 @@ import (
 
 // InstanceMetadata represents info about an InstanceMetadata in GCE
 type InstanceMetadata struct {
-	ID         string
-	Name       string
-	Version    string
-	Hostname   string
-	Zone       string
-	Project    string
-	InternalIP string
-	ExternalIP string
-	LBRequest  string
-	ClientIP   string
-	Error      string
+	ID          string
+	Name        string
+	Environment string
+	Hostname    string
+	Zone        string
+	Project     string
+	InternalIP  string
+	ExternalIP  string
+	LBRequest   string
+	ClientIP    string
+	Error       string
 }
 
 // Populate creates a new instance with info filled out
-func (i *InstanceMetadata) Populate(version string) {
+func (i *InstanceMetadata) Populate(env string) {
 	var err error
 	if !metadata.OnGCE() {
 		i.Error = "Not running on GCE"
@@ -62,5 +62,5 @@ func (i *InstanceMetadata) Populate(version string) {
 		i.Error += "Unable to populate ExternalIP\n"
 		return
 	}
-	i.Version = version
+	i.Environment = env
 }
