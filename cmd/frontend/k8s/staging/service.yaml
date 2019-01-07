@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: gceme-frontend
+spec:
+  loadBalancerIP: "35.192.109.145"
+
