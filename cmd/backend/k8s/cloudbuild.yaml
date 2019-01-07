@@ -16,7 +16,7 @@ steps:
   args:
   - rsync
   - -c
-  - /workspace/yaml/*
+  - /workspace/yaml/
   - gs://vic-cd-demo-k8s-yaml/
 options:
  machineType: 'N1_HIGHCPU_32'
