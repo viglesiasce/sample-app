@@ -19,5 +19,15 @@ steps:
      ln -s /workspace/cmd/frontend /root/go/src/frontend
      cd /root/go/src/frontend
      go test
+- name: 'gcr.io/vic-cd-demo/binauthz-tools'
+  id: 'unit-test-attestation'
+  waitFor: ['build', 'test']
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+     FULLY_QUALIFIED_IMAGE=$(gcloud container images describe --format 'value(image_summary.fully_qualified_digest)' gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA)
+     /scripts/create_attestation.sh -n unit-test -p $PROJECT_ID -i $$FULLY_QUALIFIED_IMAGE
 options:
  machineType: 'N1_HIGHCPU_8'
