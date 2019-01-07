@@ -18,5 +18,3 @@ steps:
   - -c
   - /workspace/yaml/
   - gs://vic-cd-demo-k8s-yaml/
-options:
- machineType: 'N1_HIGHCPU_32'

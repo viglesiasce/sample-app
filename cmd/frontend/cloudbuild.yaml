@@ -20,4 +20,4 @@ steps:
      cd /root/go/src/frontend
      go test
 options:
- machineType: 'N1_HIGHCPU_32'
+ machineType: 'N1_HIGHCPU_8'
