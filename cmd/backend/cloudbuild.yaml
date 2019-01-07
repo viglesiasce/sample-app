@@ -29,23 +29,5 @@ steps:
   - |
      FULLY_QUALIFIED_IMAGE=$(gcloud container images describe --format 'value(image_summary.fully_qualified_digest)' gcr.io/$PROJECT_ID/sample-app-backend:$COMMIT_SHA)
      /scripts/create_attestation.sh -n unit-test -p $PROJECT_ID -i $$FULLY_QUALIFIED_IMAGE
-- name: 'gcr.io/$PROJECT_ID/kustomize'
-  id: 'create-yaml'
-  waitFor: ['-']
-  entrypoint: 'sh'
-  args:
-  - -xe
-  - -c
-  - |
-     mkdir -p /workspace/yaml
-     /kustomize build cmd/backend/k8s/production > /workspace/yaml/backend-production.yaml
-     /kustomize build cmd/backend/k8s/staging > /workspace/yaml/backend-staging.yaml
-- name: 'gcr.io/cloud-builders/gsutil'
-  id: 'upload-yaml'
-  waitFor: ['create-yaml']
-  args:
-  - cp
-  - /workspace/yaml/*
-  - gs://vic-cd-demo-k8s-yaml/
 options:
  machineType: 'N1_HIGHCPU_32'

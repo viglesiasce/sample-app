@@ -1,0 +1,22 @@
+steps:
+- name: 'gcr.io/$PROJECT_ID/kustomize'
+  id: 'create-yaml'
+  waitFor: ['-']
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+     mkdir -p /workspace/yaml
+     /kustomize build cmd/backend/k8s/production > /workspace/yaml/backend-production.yaml
+     /kustomize build cmd/backend/k8s/staging > /workspace/yaml/backend-staging.yaml
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: 'upload-yaml'
+  waitFor: ['create-yaml']
+  args:
+  - rsync
+  - -c
+  - /workspace/yaml/*
+  - gs://vic-cd-demo-k8s-yaml/
+options:
+ machineType: 'N1_HIGHCPU_32'
