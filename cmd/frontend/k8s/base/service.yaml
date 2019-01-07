@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: gceme-frontend
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - name: http
     port: 8080
