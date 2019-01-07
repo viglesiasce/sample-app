@@ -1,4 +1,4 @@
 bases:
-  - ../production
+  - ../base
 patches:
   - deployment.yaml
