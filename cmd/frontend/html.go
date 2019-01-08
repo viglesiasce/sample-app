@@ -24,7 +24,7 @@ const (
 
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
-<title>Frontend Web Server</title>
+<title>{{.Environment}}</title>
 </head>
 <body>
 <div class="container">
