@@ -35,7 +35,7 @@ const (
 
 <div class="card green" class="color">
 <div class="card-content white-text">
-<div class="card-title">Backend that serviced this request</div>
+<div class="card-title">Environment: {{.Environment}}</div>
 </div>
 <div class="card-content white">
 <table class="bordered">
