@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: kustomize-bucket
+spec:
+  type: storage
+  params:
+    - name: type
+      value: gcs
+    - name: location
+      value: gs://vic-tekton-3-sample-app-kustomize
+    - name: dir
+      value: "true"
+  secrets:
+    - fieldName: GOOGLE_APPLICATION_CREDENTIALS
+      secretName: gcs-sa
+      secretKey: service-account.json

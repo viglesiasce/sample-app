@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: gcr-vic-tekton-3-sample-app-backend
+spec:
+  type: image
+  params:
+  - name: url
+    value: gcr.io/vic-tekton-3/sample-app-backend
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: gcr-vic-tekton-3-sample-app-frontend
+spec:
+  type: image
+  params:
+  - name: url
+    value: gcr.io/vic-tekton-3/sample-app-frontend

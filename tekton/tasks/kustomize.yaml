@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+    name: kustomize-build
+spec:
+  inputs:
+    resources:
+    - name: kustomize-source
+      type: git
+    params:
+    - name: pathToKustomization
+      type: string
+      description: The path to the kustomization to build
+      default: /workspace/kustomize-source/
+  outputs:
+      resources:
+      - name: kustomizeStorage
+        type: storage
+  steps:
+  - name: build-and-store
+    image: viglesiasce/kustomize-gsutil
+    command:
+    - sh
+    args:
+    - -c
+    - |
+      kustomize build ${inputs.params.pathToKustomization} \
+                -o /tmp/kustomize

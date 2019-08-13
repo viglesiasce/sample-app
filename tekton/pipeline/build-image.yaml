@@ -1,0 +1,56 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: sample-app-pipeline
+spec:
+  resources:
+    - name: sample-app-source
+      type: git
+    - name: sample-app-backend-repo
+      type: image
+    - name: sample-app-frontend-repo
+      type: image
+    - name: kustomize-bucket
+      type: storage
+  tasks:
+    - name: build-backend-image
+      taskRef:
+        name: build-docker-image-from-git-source
+      params:
+        - name: pathToDockerFile
+          value: Dockerfile
+        - name: pathToContext
+          value: /workspace/docker-source/cmd/backend
+      resources:
+        inputs:
+          - name: docker-source
+            resource: sample-app-source
+        outputs:
+          - name: builtImage
+            resource: sample-app-frontend-repo
+    - name: build-frontend-image
+      taskRef:
+        name: build-docker-image-from-git-source
+      params:
+        - name: pathToDockerFile
+          value: Dockerfile
+        - name: pathToContext
+          value: /workspace/docker-source/cmd/frontend
+      resources:
+        inputs:
+          - name: docker-source
+            resource: sample-app-source
+        outputs:
+          - name: builtImage
+            resource: sample-app-frontend-repo
+    - name: kustomize-build
+      taskRef:
+        name: kustomize-build
+      resources:
+        inputs:
+          - name: kustomize-source
+            resource: sample-app-source
+        outputs:
+          - name: kustomizeStorage
+            resource: kustomize-bucket
+    

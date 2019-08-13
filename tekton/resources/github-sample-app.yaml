@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: sample-app-git
+spec:
+  type: git
+  params:
+  - name: revision
+    value: tekton
+  - name: url
+    value: https://github.com/viglesiasce/sample-app
