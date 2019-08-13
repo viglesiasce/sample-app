@@ -51,6 +51,6 @@ spec:
           - name: kustomize-source
             resource: sample-app-source
         outputs:
-          - name: kustomizeStorage
+          - name: kustomizeYaml
             resource: kustomize-bucket
     
