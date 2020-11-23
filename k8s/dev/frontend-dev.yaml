@@ -17,7 +17,11 @@ apiVersion: apps/v1
 metadata:
   name: gceme-frontend-dev
 spec:
-  replicas:
+  replicas: 1
+  selector:
+    app: gceme
+    role: frontend
+    env: dev
   template:
     metadata:
       name: frontend
