@@ -19,9 +19,10 @@ metadata:
 spec:
   replicas: 1
   selector:
-    app: gceme
-    role: backend
-    env: dev
+    matchLabels:
+      app: gceme
+      role: backend
+      env: dev
   template:
     metadata:
       name: backend
