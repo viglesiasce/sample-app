@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gceme-backend-dev
+  name: gceme-backend
 spec:
   selector:
     matchLabels:
       app: gceme
-      env: dev
       role: backend
   strategy:
     rollingUpdate:
@@ -16,7 +15,6 @@ spec:
     metadata:
       labels:
         app: gceme
-        env: dev
         role: backend
       name: backend
     spec:
@@ -25,7 +23,7 @@ spec:
         - name: VERSION
           value: dev
         - name: REDIS_URL
-          value: redis-dev:6379
+          value: redis:6379
         image: sample-app-backend
         imagePullPolicy: IfNotPresent
         name: backend
