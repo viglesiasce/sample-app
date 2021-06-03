@@ -18,7 +18,7 @@ steps:
   - |
     gcloud config set api_endpoint_overrides/clouddeploy "https://staging-clouddeploy.sandbox.googleapis.com/"
     gcloud alpha deploy apply --file ci-cd/deploy.yaml --region ${_REGION}
-    gcloud alpha deploy releases create $(date +%s) \
-                        --delivery-pipeline web-app \
+    gcloud alpha deploy releases create $COMMIT_SHA \
+                        --delivery-pipeline simple \
                         --region ${_REGION} \
                         --images sample-app-backend=gcr.io/$PROJECT_ID/sample-app-backend:$SHORT_SHA
