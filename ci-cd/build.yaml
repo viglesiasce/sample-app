@@ -21,4 +21,4 @@ steps:
     gcloud alpha deploy releases create $(date +%s) \
                         --delivery-pipeline web-app \
                         --region ${_REGION} \
-                        --image sample-app-backend=gcr.io/$PROJECT_ID/sample-app-backend:$SHORT_SHA
+                        --images sample-app-backend=gcr.io/$PROJECT_ID/sample-app-backend:$SHORT_SHA
