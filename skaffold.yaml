@@ -1,43 +1,8 @@
 apiVersion: skaffold/v2beta13
 kind: Config
-metadata:
-  name: full-stack
-requires:
-  - path: validate/
 build:
-  local:
-    push: false
-    concurrency: 0
   artifacts:
-    - image: sample-app-frontend
-      context: frontend
     - image: sample-app-backend
-      context: backend
 deploy:
-  kustomize:
-    paths:
-      - frontend/k8s/dev
-      - backend/k8s/dev
-profiles:
-  - name: staging
-    deploy:
-      kustomize:
-        paths:
-          - frontend/k8s/staging
-          - backend/k8s/staging
-  - name: prod
-    deploy:
-      kustomize:
-        paths:
-          - frontend/k8s/prod
-          - backend/k8s/prod
-portForward:
-  - resourceType: service
-    resourceName: gceme-frontend-dev
-    namespace: default
-    port: 8080
-  - resourceType: service
-    resourceName: gceme-backend-dev
-    namespace: default
-    port: 8080
-    localPort: 8081
+  kubectl:
+    manifests: ["k8s-manifests/dev.yaml"]
