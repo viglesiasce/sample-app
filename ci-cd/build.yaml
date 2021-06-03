@@ -16,7 +16,6 @@ steps:
   - -xe
   - -c
   - |
-    gcloud config set api_endpoint_overrides/clouddeploy "https://staging-clouddeploy.sandbox.googleapis.com/"
     gcloud alpha deploy apply --file ci-cd/deploy.yaml --region ${_REGION}
     gcloud alpha deploy releases create $COMMIT_SHA \
                         --delivery-pipeline simple \
