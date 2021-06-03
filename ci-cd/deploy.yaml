@@ -1,6 +1,6 @@
 apiVersion: cloudDeploy/beta1
 kind: delivery-pipeline
-name: web-app
+name: simple
 description: web-app delivery pipeline
 serialPipeline:
  stages:
@@ -10,7 +10,7 @@ serialPipeline:
 apiVersion: cloudDeploy/beta1
 kind: target
 name: prod
-deliveryPipeline: web-app
+deliveryPipeline: simple
 description: prod
 gkeCluster:
   project: vic-e2e-cicd
@@ -20,7 +20,7 @@ gkeCluster:
 apiVersion: cloudDeploy/beta1
 kind: target
 name: staging
-deliveryPipeline: web-app
+deliveryPipeline: simple
 description: staging
 gkeCluster:
   project: vic-e2e-cicd
