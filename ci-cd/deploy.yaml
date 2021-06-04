@@ -1,11 +1,12 @@
 apiVersion: cloudDeploy/beta1
-kind: delivery-pipeline
-name: simple
-description: web-app delivery pipeline
-serialPipeline:
- stages:
- - targetId: staging
- - targetId: prod
+kind: target
+name: staging
+deliveryPipeline: simple
+description: staging
+gkeCluster:
+ project: vic-e2e-cicd
+ cluster: staging
+ location: us-central1
 ---
 apiVersion: cloudDeploy/beta1
 kind: target
@@ -13,16 +14,15 @@ name: prod
 deliveryPipeline: simple
 description: prod
 gkeCluster:
-  project: vic-e2e-cicd
-  cluster: prod
-  location: us-central1
+ project: vic-e2e-cicd
+ cluster: prod
+ location: us-central1
 ---
 apiVersion: cloudDeploy/beta1
-kind: target
-name: staging
-deliveryPipeline: simple
-description: staging
-gkeCluster:
-  project: vic-e2e-cicd
-  cluster: staging
-  location: us-central1
+kind: delivery-pipeline
+name: simple
+description: web-app delivery pipeline
+serialPipeline:
+ stages:
+ - targetId: staging
+ - targetId: prod
