@@ -11,17 +11,17 @@ function cleanup {
 trap cleanup EXIT
 
 # Get Frontend Configs
-cd frontend
+pushd ../frontend
 kustomize build k8s/prod > ${CONFIG_DIR}/frontend.yaml
-cd ..
+popd
 
 # Get Backend Configs
-cd backend
+pushd ../backend
 kustomize build k8s/prod >> ${CONFIG_DIR}/backend.yaml
-cd ..
+popd ..
 
 # Run them against our constraints
-cp validate/policy.yaml ${CONFIG_DIR}/prod.yaml
+cp ../validate/policy.yaml ${CONFIG_DIR}/prod.yaml
 
 # Run the validations
 kpt fn source ${CONFIG_DIR} | kpt fn eval --image gcr.io/kpt-fn/gatekeeper:v0.1 -

@@ -8,21 +8,13 @@ spec:
     spec:
       names:
         kind: NoRoot
-        validation:
-          openAPIV3Schema:
-            properties:
-              keys:
-                type: array
-                items:
-                  type: string
   targets:
   - target: admission.k8s.gatekeeper.sh
     rego: |-
       package noroot
 
       violation[{"msg": msg}] {
-        not input.review.object.spec.template.spec.securityContext.runAsNonRoot
-
+        input.review.object.spec.template.spec.securityContext.runAsNonRoot == true
         msg := "Containers must not run as root"
       }
 ---
@@ -33,7 +25,5 @@ metadata:
 spec:
   match:
     kinds:
-    - apiGroups:
-      - 'apps/v1'
-      kinds:
-      - Deployment
+    - apiGroups: ["apps/v1"]
+      kinds: ["Deployment"]
