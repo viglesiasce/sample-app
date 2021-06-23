@@ -1,48 +1,28 @@
 apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
-  name: full-stack
+  name: backend
 requires:
   - path: validate/
 build:
-  local:
-    concurrency: 0
   artifacts:
-    - image: sample-app-frontend
-      context: frontend
-    - image: sample-app-backend
-      context: backend
+  - image: sample-app
+test:
+  - image: sample-app
+    custom:
+    - command: docker run $IMAGE go test
 deploy:
   kustomize:
     paths:
-      - frontend/k8s/dev
-      - backend/k8s/dev
+    - k8s/dev
 profiles:
-  - name: staging
-    deploy:
-      kustomize:
-        paths:
-          - frontend/k8s/staging
-          - backend/k8s/staging
-  - name: canary
-    deploy:
-      kustomize:
-        paths:
-        - frontend/k8s/canary
-        - backend/k8s/canary
-  - name: prod
-    deploy:
-      kustomize:
-        paths:
-          - frontend/k8s/prod
-          - backend/k8s/prod
+- name: prod
+  deploy:
+    kustomize:
+      paths:
+      - k8s/prod
 portForward:
-  - resourceType: service
-    resourceName: gceme-frontend-dev
+  - resourceName: sample-app-dev
+    resourceType: service
     namespace: default
     port: 8080
-  - resourceType: service
-    resourceName: gceme-backend-dev
-    namespace: default
-    port: 8080
-    localPort: 8081
