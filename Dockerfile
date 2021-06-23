@@ -8,8 +8,7 @@ USER app
 
 # Copy in source files
 COPY vendor/ ./vendor/
-COPY *.go go.* ./
-COPY templates/ ./templates/
+COPY *.go go.* *.html ./
 
 ENV GOTRACEBACK=single
 ARG SKAFFOLD_GO_GCFLAGS

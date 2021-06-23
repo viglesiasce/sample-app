@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-app
+      env: canary
+  template:
+    metadata:
+      labels:
+        app: sample-app
+        env: canary
+      name: sample-app
+    spec:
+      containers:
+      - env:
+        - name: VERSION
+          value: canary
+        - name: REDIS_URL
+          value: 172.30.0.11:6379
+        image: sample-app
+        imagePullPolicy: Always
+        name: sample-app
+        ports:
+        - containerPort: 8080
+          name: sample-app
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000

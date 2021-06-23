@@ -12,15 +12,13 @@ test:
     custom:
     - command: docker run $IMAGE go test
 deploy:
-  kustomize:
-    paths:
-    - k8s/dev
+  kubectl:
+    manifests: ["k8s/dev.yaml"]
 profiles:
 - name: prod
   deploy:
-    kustomize:
-      paths:
-      - k8s/prod
+    kubectl:
+      manifests: ["k8s/prod.yaml"]
 portForward:
   - resourceName: sample-app-dev
     resourceType: service
