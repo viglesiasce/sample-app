@@ -31,11 +31,4 @@ steps:
                         --description "$(git log -1  --pretty='%s')" \
                         --region ${_REGION} \
                         --build-artifacts /workspace/artifacts.json
-artifacts:
-  objects:
-    location: 'gs://$PROJECT_ID-gceme-artifacts/'
-    paths:
-    - '/workspace/artifacts.json'
-options:
-  machineType: E2_HIGHCPU_8
 timeout: 3600s
