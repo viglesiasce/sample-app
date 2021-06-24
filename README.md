@@ -11,11 +11,12 @@ gcloud services enable sourcerepo.googleapis.com \
                        container.googleapis.com
 ```
 
-1. Configure Cloud Build to allow modifaction of Cloud Deploy delivery pipelines:
+1. Configure Cloud Build to allow modification of Cloud Deploy delivery pipelines and deploy to GKE:
 
 ```shell
 PROJECT_NUMBER=$(gcloud projects list --filter="$(gcloud config get-value project)" --format="value(PROJECT_NUMBER)")
 gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/clouddeploy.admin $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/container.developer $(gcloud config get-value project)
 ```
 
 1. Create a source repository
