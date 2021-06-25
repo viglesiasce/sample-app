@@ -8,6 +8,7 @@ steps:
   - -c
   - |
     # Build and push images
+    skaffold config set --global collect-metrics false
     skaffold build --file-output=/workspace/artifacts.json \
                    --default-repo gcr.io/$PROJECT_ID \
                    --push=true
@@ -25,7 +26,7 @@ steps:
     gcloud alpha deploy apply --region ${_REGION} --file deploy/staging.yaml
     gcloud alpha deploy apply --region ${_REGION} --file deploy/canary.yaml
     gcloud alpha deploy apply --region ${_REGION} --file deploy/prod.yaml
-
+    cat /workspace/artifacts.json
     gcloud alpha deploy releases create $SHORT_SHA-$(date +%s) \
                         --delivery-pipeline web-app \
                         --description "$(git log -1  --pretty='%s')" \
