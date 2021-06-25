@@ -25,13 +25,14 @@ gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER
 gcloud source repos create sample-app
 ```
 
-1. Create a Cloud Build trigger for the main branch
+1. Create a Cloud Build trigger for the main branch and a bucket for persisting build artifacts.
 
 ```shell
 gcloud beta builds triggers create cloud-source-repositories --name="sample-app-master" \
                                                              --repo="sample-app" \
                                                              --branch-pattern="master" \
                                                              --build-config="cloudbuild.yaml"
+gsutil mb gs://$(gcloud config get-value project)-gceme-artifacts/
 ```
 
 1. Create a `staging` GKE Cluster:

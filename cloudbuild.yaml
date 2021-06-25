@@ -24,16 +24,21 @@ steps:
   - -xe
   - -c
   - |
-    gcloud alpha deploy apply --region ${_REGION} --file deploy/pipeline.yaml
     gcloud alpha deploy apply --region ${_REGION} --file deploy/staging.yaml
     gcloud alpha deploy apply --region ${_REGION} --file deploy/canary.yaml
     gcloud alpha deploy apply --region ${_REGION} --file deploy/prod.yaml
+    gcloud alpha deploy apply --region ${_REGION} --file deploy/pipeline.yaml
     cat /workspace/artifacts.json
     gcloud alpha deploy releases create $SHORT_SHA-$(date +%s) \
                         --delivery-pipeline web-app \
                         --description "$(git log -1  --pretty='%s')" \
                         --region ${_REGION} \
                         --build-artifacts /workspace/artifacts.json
+artifacts:
+  objects:
+    location: 'gs://$PROJECT_ID-gceme-artifacts/'
+    paths:
+    - '/workspace/artifacts.json'
 options:
   machineType: N1_HIGHCPU_8
 timeout: 3600s
