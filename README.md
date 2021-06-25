@@ -15,10 +15,11 @@ gcloud services enable sourcerepo.googleapis.com \
 
 ```shell
 PROJECT_NUMBER=$(gcloud projects list --filter="$(gcloud config get-value project)" --format="value(PROJECT_NUMBER)")
-gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/clouddeploy.admin $(gcloud config get-value project)
-gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/container.developer $(gcloud config get-value project)
-gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/iam.serviceAccountUser $(gcloud config get-value project)
-gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER})@cloudbuild.gserviceaccount.com" --role roles/clouddeploy.jobRunner $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role roles/clouddeploy.admin $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role roles/container.developer $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role roles/iam.serviceAccountUser $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" --role roles/clouddeploy.jobRunner $(gcloud config get-value project)
+gcloud projects add-iam-policy-binding --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --role roles/container.admin $(gcloud config get-value project)
 ```
 
 1. Create a source repository
