@@ -2,8 +2,8 @@ apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
   name: backend
-requires:
-  - path: validate/
+#requires:
+#  - path: validate/
 build:
   artifacts:
   - image: sample-app
