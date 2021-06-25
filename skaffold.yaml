@@ -15,6 +15,14 @@ deploy:
   kubectl:
     manifests: ["k8s/dev.yaml"]
 profiles:
+- name: staging
+  deploy:
+    kubectl:
+      manifests: ["k8s/staging.yaml"]
+- name: canary
+  deploy:
+    kubectl:
+      manifests: ["k8s/canary.yaml"]
 - name: prod
   deploy:
     kubectl:
