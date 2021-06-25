@@ -7,6 +7,6 @@ metadata:
 deliveryPipeline: web-app
 description: prod
 gkeCluster:
-  project: vic-e2e-cicd
+  project: vic-e2e-bootstrap-2
   cluster: prod
   location: us-central1
