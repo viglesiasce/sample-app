@@ -11,4 +11,4 @@ build:
 test:
   - image: validate-image
     custom:
-    - command: ./validate.sh
+    - command: ./validate.sh $IMAGE

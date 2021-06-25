@@ -14,7 +14,7 @@ spec:
       package noroot
 
       violation[{"msg": msg}] {
-        input.review.object.spec.template.spec.securityContext.runAsNonRoot == true
+        not input.review.object.spec.template.spec.securityContext.runAsNonRoot
         msg := "Containers must not run as root"
       }
 ---
