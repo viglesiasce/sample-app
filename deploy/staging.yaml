@@ -4,7 +4,7 @@ metadata:
   name: prod
   annotations: {}
   labels: {}
-deliveryPipeline: web-app
+deliveryPipeline: sample-app
 description: prod
 gkeCluster:
   project: vic-e2e-bootstrap-2
