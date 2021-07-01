@@ -2,15 +2,13 @@ apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
   name: backend
-requires:
-  - path: validate/
 build:
   artifacts:
   - image: sample-app
 test:
   - image: sample-app
     custom:
-    - command: docker run $IMAGE go test
+    - command: docker run -v /Users/abbycar/Documents/code/sample-app:/k8s gcr.io/abbycar-project/test-validate-image:latest
 deploy:
   kubectl:
     manifests: ["k8s/dev.yaml"]
