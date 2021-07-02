@@ -9,7 +9,7 @@ test:
   - image: sample-app
     custom:
     # Specify absolute path of your K8s folder to mount to validation image
-    - command: docker run -v /Users/abbycar/Documents/code/sample-app:/k8s gcr.io/abbycar-project/test-validate-image:latest
+    - command: docker run -v /Users/abbycar/Documents/code/sample-app/k8s:/k8s gcr.io/abbycar-project/test-validate-image:latest
 deploy:
   kubectl:
     manifests: ["k8s/dev.yaml"]
