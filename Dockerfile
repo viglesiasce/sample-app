@@ -13,5 +13,5 @@ COPY *.go go.* *.html ./
 ENV GOTRACEBACK=single
 ARG SKAFFOLD_GO_GCFLAGS
 RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o app
-
+COPY k8s k8s
 CMD ["/go/src/app/app"]
