@@ -63,6 +63,10 @@ spec:
         app: redis
       name: redis
     spec:
+      securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
       containers:
       - command:
         - redis-server
