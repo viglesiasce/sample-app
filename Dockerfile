@@ -17,11 +17,12 @@ FROM golang:1.16
 # Add a non-root user
 RUN useradd -u 1000 -ms  /bin/bash app
 RUN mkdir -p /go/src/app && chown -R app:app /go/src/app
-USER app
 
 # Cache dependencies
 WORKDIR /go/src/app
 COPY go.* ./
+RUN chown app:app go.*
+USER app
 RUN go mod download
 
 ENV GOTRACEBACK=all
