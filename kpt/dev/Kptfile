@@ -1,0 +1,20 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata:
+  name: dev
+upstream:
+  type: git
+  git:
+    repo: git@github.com:viglesiasce/kpt-sample-app
+    directory: /
+    ref: master
+  updateStrategy: resource-merge
+upstreamLock:
+  type: git
+  git:
+    repo: git@github.com:viglesiasce/kpt-sample-app
+    directory: /
+    ref: master
+    commit: f70a921f6a276f51b057812bf2ae9eec8c40be63
+info:
+  description: sample description
