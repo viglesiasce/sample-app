@@ -1,176 +1,110 @@
-/**
-# Copyright 2015 Google Inc. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-**/
-
 package main
 
 import (
-	"encoding/json"
+	"context"
 	"flag"
-	"fmt"
-	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
-	"cloud.google.com/go/compute/metadata"
+	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 )
 
-type Instance struct {
-	Id         string
-	Name       string
-	Version    string
-	Hostname   string
-	Zone       string
-	Project    string
-	InternalIP string
-	ExternalIP string
-	LBRequest  string
-	ClientIP   string
-	Error      string
-}
-
-var version string
+var version = os.Getenv("VERSION")
+var redisUrl = os.Getenv("REDIS_URL")
+var rdb = redis.NewClient(&redis.Options{
+	Addr:     redisUrl,
+	Password: "", // no password set
+	DB:       0,  // use default DB
+})
+var rdbCtx = context.Background()
 
 func main() {
-        version_bytes, err := ioutil.ReadFile("VERSION")
-        if err != nil {
-          panic(err)
-        }
-        version = string(version_bytes)
-	frontend := flag.Bool("frontend", false, "run in frontend mode")
-	port := flag.Int("port", 8080, "port to bind")
-	backend := flag.String("backend-service", "http://127.0.0.1:8081", "hostname of backend server")
+	port := ":8080"
+
 	flag.Parse()
 
-        fmt.Printf("Version %s\n", version)
+	r := gin.Default()
+	log.Printf("Backend version: %s\n", version)
 
-	http.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "%s\n", version)
-	})
 
-	if *frontend {
-		frontendMode(*port, *backend)
-	} else {
-		backendMode(*port)
+	rdb.Set(rdbCtx, "counter", "0", 0)
+
+	r.GET("/", handleIndex)
+	r.GET("/version", handleVersion)
+	r.GET("/healthz", handleHealthz)
+
+	srv := &http.Server{
+		Addr:    port,
+		Handler: r,
 	}
 
-}
-
-func backendMode(port int) {
-	log.Println("Operating in backend mode...")
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		i := newInstance()
-		raw, _ := httputil.DumpRequest(r, true)
-		i.LBRequest = string(raw)
-		resp, _ := json.Marshal(i)
-		fmt.Fprintf(w, "%s", resp)
-	})
-	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
-
-}
-
-func frontendMode(port int, backendURL string) {
-	log.Println("Operating in frontend mode...")
-	tpl := template.Must(template.New("out").Parse(html))
-
-	transport := http.Transport{DisableKeepAlives: false}
-	client := &http.Client{Transport: &transport}
-	req, _ := http.NewRequest(
-		"GET",
-		backendURL,
-		nil,
-	)
-	req.Close = false
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		i := &Instance{}
-		resp, err := client.Do(req)
-		if err != nil {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			fmt.Fprintf(w, "Error: %s\n", err.Error())
-			return
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
 		}
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintf(w, "Error: %s\n", err.Error())
-			return
-		}
-		err = json.Unmarshal([]byte(body), i)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintf(w, "Error: %s\n", err.Error())
-			return
-		}
-		tpl.Execute(w, i)
-	})
+	}()
 
-	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		resp, err := client.Do(req)
-		if err != nil {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			fmt.Fprintf(w, "Backend could not be connected to: %s", err.Error())
-			return
-		}
-		defer resp.Body.Close()
-		ioutil.ReadAll(resp.Body)
-		w.WriteHeader(http.StatusOK)
-	})
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
-}
+	// Wait for interrupt signal to gracefully shutdown the server with
+	// a timeout of 5 seconds.
+	quit := make(chan os.Signal, 1)
+	// kill (no param) default send syscall.SIGTERM
+	// kill -2 is syscall.SIGINT
+	// kill -9 is syscall.SIGKILL but can't be catch, so don't need add it
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutting down server...")
 
-type assigner struct {
-	err error
-}
-
-func (a *assigner) assign(getVal func() (string, error)) string {
-	if a.err != nil {
-		return ""
+	// The context is used to inform the server it has 5 seconds to finish
+	// the request it is currently handling
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server forced to shutdown:", err)
 	}
-	s, err := getVal()
+
+	log.Println("Server exiting")
+}
+
+func handleIndex(c *gin.Context) {
+	log.Printf("Received request from %s at %s", c.Request.RemoteAddr, c.Request.URL.EscapedPath())
+	p := PodMetadata{}
+	counter, err := incrCounter(c)
 	if err != nil {
-		a.err = err
+		c.String(http.StatusInternalServerError, "%v", err)
+		return
 	}
-	return s
+	err = p.Populate(version, counter)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "%v", err)
+		return
+	}
+	raw, _ := httputil.DumpRequest(c.Request, true)
+	p.RawRequest = string(raw)
+	c.JSON(http.StatusOK, p)
 }
 
-func newInstance() *Instance {
-	var i = new(Instance)
-	if !metadata.OnGCE() {
-		i.Error = "Not running on GCE"
-		return i
+func incrCounter(c *gin.Context) (string, error) {
+	err := rdb.Incr(rdbCtx, "counter").Err()
+	if err != nil {
+		return "", err
 	}
-
-	a := &assigner{}
-	i.Id = a.assign(metadata.InstanceID)
-	i.Zone = a.assign(metadata.Zone)
-	i.Name = a.assign(metadata.InstanceName)
-	i.Hostname = a.assign(metadata.Hostname)
-	i.Project = a.assign(metadata.ProjectID)
-	i.InternalIP = a.assign(metadata.InternalIP)
-	i.ExternalIP = a.assign(metadata.ExternalIP)
-	i.Version = version
-
-	if a.err != nil {
-		i.Error = a.err.Error()
+	val, err := rdb.Get(rdbCtx, "counter").Result()
+	if err != nil {
+		return "", err
 	}
-	return i
+	return val, nil
+}
+
+func handleVersion(c *gin.Context) {
+	c.String(http.StatusOK, "%s", c.Value("version"))
+}
+
+func handleHealthz(c *gin.Context) {
+	c.String(http.StatusOK, "", "")
 }

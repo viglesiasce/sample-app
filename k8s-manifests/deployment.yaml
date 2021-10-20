@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gceme-backend
+spec:
+  selector:
+    matchLabels:
+      app: gceme
+      role: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: gceme
+        role: backend
+      name: backend
+    spec:
+      containers:
+      - env:
+        - name: VERSION
+          value: dev
+        - name: REDIS_URL
+          value: redis:6379
+        image: sample-app-backend
+        imagePullPolicy: IfNotPresent
+        name: backend
+        ports:
+        - containerPort: 8080
+          name: backend
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+  

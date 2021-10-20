@@ -17,13 +17,13 @@
 package main
 
 import (
-	"cloud.google.com/go/compute/metadata"
 	"testing"
 )
 
-func TestGCE(t *testing.T) {
-	i := newInstance()
-	if !metadata.OnGCE() && i.Error != "Not running on GCE" {
-		t.Error("Test not running on GCE, but error does not indicate that fact.")
+func TestLocal(t *testing.T) {
+	p := PodMetadata{}
+	err := p.Populate("test", "1")
+	if err == nil {
+		t.Error("Running inside k8s on accident?")
 	}
 }

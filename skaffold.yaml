@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2beta15
+kind: Config
+metadata:
+  name: sample-app
+deploy:
+  kubectl:
+    manifests:
+    - k8s-manifests/deployment.yaml
+    - k8s-manifests/rbac.yaml
+    - k8s-manifests/redis.yaml
+    - k8s-manifests/service.yaml
