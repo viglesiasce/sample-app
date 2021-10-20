@@ -43,7 +43,7 @@ jobs:
     - name: 'Checkout manifests'
       uses: actions/checkout@v2
       with:
-        repository: viglesias/sample-app-manifests
+        repository: viglesiasce/sample-app-manifests
         token: ${{ github.token }}
         path: sample-app-manifests
     - name: Update manifests
