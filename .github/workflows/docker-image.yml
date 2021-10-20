@@ -36,6 +36,10 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:${{ env.GITHUB_SHA }}
+  deploy:
+    needs: [ build-and-push ]
+    runs-on: ubuntu-latest
+    steps:
     - name: 'Checkout manifests'
       uses: actions/checkout@v2
       with:
