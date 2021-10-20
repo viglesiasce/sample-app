@@ -40,6 +40,10 @@ jobs:
     needs: [ build-and-push ]
     runs-on: ubuntu-latest
     steps:
+    - name: 'Checkout source code'
+      uses: actions/checkout@v2
+      with:
+        path: sample-app
     - name: 'Checkout manifests'
       uses: actions/checkout@v2
       with:
@@ -50,7 +54,7 @@ jobs:
       run: |
            git config --global user.name ${GITHUB_ACTOR}
            git config --global user.email ${GITHUB_ACTOR}@vic.dev
-           cp k8s-manifests/* sample-app-manifests/
+           cp sample-app/k8s-manifests/* sample-app-manifests/
            cd sample-app-manifests/
            git add .
            git commit -m "Deploying version $GITHUB_SHA"
