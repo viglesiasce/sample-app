@@ -17,6 +17,7 @@ jobs:
     - name: Test
       run: go test ./...
   build-and-push:
+    # Don't do this for pull requests, only on push to master
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [ test ]
     runs-on: ubuntu-latest
@@ -34,4 +35,19 @@ jobs:
         context: ./
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:$GITHUB_SHA
+    - name: 'Checkout manifests'
+      uses: actions/checkout@v2
+      with:
+        repository: viglesias/sample-app-manifests
+        token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+        path: sample-app-manifests
+    - name: Update manifests
+      run: |
+           git config --global user.name ${GITHUB_ACTOR}
+           git config --global user.email ${GITHUB_ACTOR}@vic.dev
+           cp k8s-manifests/* sample-app-manifests/
+           cd sample-app-manifests/
+           git add .
+           git commit -m "Deploying version $GITHUB_SHA"
+           git push origin master
