@@ -35,7 +35,7 @@ jobs:
         context: ./
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:${{ env.GITHUB_SHA }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/sample-app:${{ github.sha }}
   deploy:
     needs: [ build-and-push ]
     runs-on: ubuntu-latest
