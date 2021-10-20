@@ -44,7 +44,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: viglesias/sample-app-manifests
-        token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+        token: ${{ github.token }}
         path: sample-app-manifests
     - name: Update manifests
       run: |
