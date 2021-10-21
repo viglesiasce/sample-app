@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sample-app
+  description: Sample App
+  annotations:
+    github.com/project-slug: 'viglesiasce/sample-app'
+    backstage.io/techdocs-ref: url:https://github.com/viglesiasce/sample-app-docs/tree/master
+    backstage.io/source-location: url:https://github.com/viglesiasce/sample-app/
+    backstage.io/kubernetes-label-selector: 'app=sample-app'
+  tags:
+    - go
+    - sample
+  links:
+    - url: https://me.vic.dev
+      title: Vic's Website
+      icon: user
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-c
+  system: artist-engagement-portal
+  dependsOn: ['resource:artists-db']
