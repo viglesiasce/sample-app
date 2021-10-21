@@ -1,0 +1,53 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: sample-app
+  description: The sample-app API
+  tags:
+    - sample-app
+    - rest
+  links:
+    - url: https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v3.0/petstore.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: team-a
+  definition: |
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Swagger Sample App
+      license:
+        name: Apache 2.0
+    paths:
+      /:
+        get:
+          summary: Get Metadata
+          operationId: getMetadata
+          tags:
+            - metadata
+          responses:
+            '200':
+              description: A JSON struct of metadata
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Metadata"
+    components:
+      schemas:
+        Metadata:
+          type: object
+          required:
+            - Name
+            - Namespace
+            - Counter
+          properties:
+            Name:
+              type: string
+            Namespace:
+              type: string
+            Counter:
+              type: integer
+              format: int64
