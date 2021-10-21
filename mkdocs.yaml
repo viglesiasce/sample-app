@@ -1,0 +1,8 @@
+site_name: "sample-app"
+site_description: "Sample App Docs"
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

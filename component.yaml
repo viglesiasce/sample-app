@@ -5,9 +5,9 @@ metadata:
   description: Sample App
   annotations:
     github.com/project-slug: 'viglesiasce/sample-app'
-    backstage.io/techdocs-ref: url:https://github.com/viglesiasce/sample-app-docs/tree/master
     backstage.io/source-location: url:https://github.com/viglesiasce/sample-app/
     backstage.io/kubernetes-label-selector: 'app=sample-app'
+    backstage.io/techdocs-ref: dir:.
   tags:
     - go
     - sample
