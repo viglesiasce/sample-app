@@ -24,7 +24,7 @@ spec:
           value: dev
         - name: REDIS_URL
           value: redis:6379
-        image: sample-app-backend
+        image: viglesiasce/sample-app
         imagePullPolicy: IfNotPresent
         name: backend
         ports:
