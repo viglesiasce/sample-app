@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gceme-backend
+  name: sample-app
 spec:
   selector:
     matchLabels:
-      app: gceme
-      role: backend
+      app: sample-app
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -14,9 +13,8 @@ spec:
   template:
     metadata:
       labels:
-        app: gceme
-        role: backend
-      name: backend
+        app: sample-app
+      name: sample-app
     spec:
       containers:
       - env:
@@ -26,10 +24,10 @@ spec:
           value: redis:6379
         image: viglesiasce/sample-app
         imagePullPolicy: IfNotPresent
-        name: backend
+        name: sample-app
         ports:
         - containerPort: 8080
-          name: backend
+          name: sample-app
         readinessProbe:
           httpGet:
             path: /healthz
