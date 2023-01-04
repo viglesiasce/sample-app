@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: viglesias
+spec:
+  profile:
+    displayName: Vic Iglesias
+    email: viglesias@google.com
+    picture: https://github.com/viglesiasce.png
+  memberOf: [team-a]
