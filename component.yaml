@@ -7,6 +7,7 @@ metadata:
     github.com/project-slug: 'viglesiasce/sample-app'
     backstage.io/source-location: url:https://github.com/viglesiasce/sample-app/
     backstage.io/kubernetes-label-selector: 'app=cicd-sample'
+    backstage.io/kubernetes-id: sample-app
     backstage.io/techdocs-ref: dir:.
   tags:
     - go
