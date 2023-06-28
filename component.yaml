@@ -10,6 +10,7 @@ metadata:
     backstage.io/kubernetes-namespace: sample-app
     backstage.io/kubernetes-id: sample-app
     backstage.io/techdocs-ref: dir:.
+    google.com/cloudbuild-project-slug: ah-backstage-poc
   tags:
     - go
     - sample
