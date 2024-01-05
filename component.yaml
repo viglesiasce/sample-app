@@ -11,6 +11,8 @@ metadata:
     backstage.io/kubernetes-id: sample-app
     backstage.io/techdocs-ref: dir:.
     google.com/cloudbuild-project-slug: ah-backstage-poc
+    google.com/cloudbuild-trigger-name: apphub-demo
+    google.com/cloudbuild-location: us-central1
   tags:
     - go
     - sample
