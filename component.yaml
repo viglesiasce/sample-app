@@ -13,6 +13,7 @@ metadata:
     google.com/cloudbuild-project-slug: ah-backstage-poc
     google.com/cloudbuild-trigger-name: apphub-demo
     google.com/cloudbuild-location: us-central1
+    google.com/cloudbuild-repo-name: viglesias/sample-app 
   tags:
     - go
     - sample
