@@ -35,8 +35,28 @@ spec:
                 application/json:
                   schema:
                     $ref: "#/components/schemas/Metadata"
+      /version:
+        get:
+          summary: Get version
+          operationId: getVersion
+          tags:
+            - version
+          responses:
+            '200':
+              description: A JSON struct of the software version
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Version"
     components:
       schemas:
+        Version:
+          type: object
+          required:
+            - Version
+          properties:
+            Version:
+              type: string
         Metadata:
           type: object
           required:
