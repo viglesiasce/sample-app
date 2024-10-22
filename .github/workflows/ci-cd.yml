@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         java: ['17', '21', '23']
-    runs-on: ubuntu:jammy
+    runs-on: ubuntu-22.04
     steps:
     - uses: viglesiasce/netflix-actions/nebula-build@v2
   test:
@@ -14,14 +14,14 @@ jobs:
     strategy:
       matrix:
         java: ['17', '21', '23']
-    runs-on: ubuntu:jammy
+    runs-on: ubuntu-22.04
     steps:
     - uses: viglesiasce/netflix-actions/nebula-test@v2
   deploy:
     needs: [ build, test ]
     # Only deploy for master
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu:jammy
+    runs-on: ubuntu-22.04
     steps:
     - name: 'Create Deployment Manifest'
       uses: viglesiasce/netflix-actions/create-deployment-manifest@v2
