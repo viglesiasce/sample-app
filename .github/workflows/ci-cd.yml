@@ -8,7 +8,7 @@ jobs:
         java: ['17', '21', '23']
     runs-on: ubuntu-22.04
     steps:
-    - uses: viglesiasce/netflix-actions/nebula-build@v2
+    - uses: viglesiasce/netflix-actions/nebula-build@main
   test:
     needs: [build]
     strategy:
@@ -16,7 +16,7 @@ jobs:
         java: ['17', '21', '23']
     runs-on: ubuntu-22.04
     steps:
-    - uses: viglesiasce/netflix-actions/nebula-test@v2
+    - uses: viglesiasce/netflix-actions/nebula-test@main
   deploy:
     needs: [ build, test ]
     # Only deploy for master
@@ -24,6 +24,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: 'Create Deployment Manifest'
-      uses: viglesiasce/netflix-actions/create-deployment-manifest@v2
+      uses: viglesiasce/netflix-actions/create-deployment-manifest@main
     - name: 'Deploy in Unified Delivery'
-      uses: viglesiasce/netflix-actions/unified-delivery@v2
+      uses: viglesiasce/netflix-actions/unified-delivery@main
