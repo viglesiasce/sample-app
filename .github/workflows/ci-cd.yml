@@ -10,6 +10,7 @@ jobs:
     steps:
     - uses: viglesiasce/netflix-actions/nebula-build@v2
   test:
+    needs: [build]
     strategy:
       matrix:
         java: ['17', '21', '23']
