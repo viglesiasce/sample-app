@@ -8,14 +8,14 @@ jobs:
         java: ['17', '21', '23']
     runs-on: ubuntu:jammy
     steps:
-    - uses: netflix-actions/nebula-build@v2
+    - uses: viglesiasce/netflix-actions/nebula-build@v2
   test:
     strategy:
       matrix:
         java: ['17', '21', '23']
     runs-on: ubuntu:jammy
     steps:
-    - uses: netflix-actions/nebula-test@v2
+    - uses: viglesiasce/netflix-actions/nebula-test@v2
   deploy:
     needs: [ build, test ]
     # Only deploy for master
@@ -23,6 +23,6 @@ jobs:
     runs-on: ubuntu:jammy
     steps:
     - name: 'Create Deployment Manifest'
-      uses: netflix-actions/create-deployment-manifest@v3
+      uses: viglesiasce/netflix-actions/create-deployment-manifest@v2
     - name: 'Deploy in Unified Delivery'
-      uses: netflix-actions/unified-delivery@v3
+      uses: viglesiasce/netflix-actions/unified-delivery@v2
